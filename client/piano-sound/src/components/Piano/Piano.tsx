@@ -4,7 +4,6 @@ import * as SC from "./styles";
 import {NOTES, VALID_KEYS, KEY_TO_NOTE} from "../../assets/consts";
 import {type IPianoState} from "../../types/piano";
 import {Key} from "../Key/Key";
-import {Title} from "../Title/Title";
 
 class Piano extends Component<{}, IPianoState> {
     constructor(props: {}) {
@@ -54,21 +53,27 @@ class Piano extends Component<{}, IPianoState> {
 
     render() {
         const keys = _.map(NOTES, (note, index) => (
-            <Key key={index} note={note} pressedKeys={this.state.pressedKeys} />
+            <Key
+                key={index}
+                text={note[note.length - 1]}
+                note={note.slice(0, -1)}
+                pressedKeys={this.state.pressedKeys}
+            />
         ));
 
         const audioFiles = _.map(NOTES, (note, index) => (
-            <audio id={note} key={index} src={`../../keys/${note}.mp3`} />
+            <audio
+                id={note.slice(0, -1)}
+                key={index}
+                src={`../../keys/${note.slice(0, -1)}.mp3`}
+            />
         ));
 
         return (
-            <>
-                <Title>Piano</Title>
-                <SC.PianoWrapper>
-                    <SC.Piano>{keys}</SC.Piano>
-                    <div>{audioFiles}</div>
-                </SC.PianoWrapper>
-            </>
+            <SC.PianoWrapper>
+                <SC.Piano>{keys}</SC.Piano>
+                <div>{audioFiles}</div>
+            </SC.PianoWrapper>
         );
     }
 }

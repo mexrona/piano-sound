@@ -2,11 +2,10 @@ import _ from "lodash";
 import {Component, type JSX} from "react";
 import {NOTE_TO_KEY} from "../../assets/consts";
 import {type IKeyProps} from "../../types/key";
-import * as SC from "./styles";
 
 class Key extends Component<IKeyProps> {
     noteIsFlat = (note: string): boolean => {
-        return note.length > 1;
+        return note.length > 2;
     };
 
     keyIsPressed = (note: string, pressedKeys: string[]): boolean => {
@@ -32,11 +31,23 @@ class Key extends Component<IKeyProps> {
         let key: JSX.Element;
 
         if (noteIsFlat) {
-            key = <div className={keyClassName}></div>;
+            key = (
+                <div className={keyClassName}>
+                    <div>
+                        <div>"{this.props.text}"</div>
+                        <div>
+                            {this.props.note.replace(/b/, "#").toUpperCase()}
+                        </div>
+                    </div>
+                </div>
+            );
         } else {
             key = (
                 <div className={keyClassName}>
-                    <SC.KeyText>{this.props.note.toUpperCase()}</SC.KeyText>
+                    <div>
+                        <div>"{this.props.text}"</div>
+                        <div>{this.props.note.toUpperCase()}</div>
+                    </div>
                 </div>
             );
         }

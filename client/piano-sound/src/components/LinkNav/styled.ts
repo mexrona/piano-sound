@@ -6,6 +6,8 @@ export const LinkNavItem = styled(NavLink).attrs<ILinkNavItem>((props) => ({
     $color: props.$color || "#9bcf58",
 }))`
     display: block;
+    width: fit-content;
+    margin: 0 auto;
     text-decoration: none;
     color: ${(props) => props.$color};
 `;

@@ -34,7 +34,7 @@ export const NotesList: React.FC = () => {
                 <LinkNav
                     key={note.id}
                     to={`/notes/${note.title}`}
-                    $color="#2fa7f3">
+                    $color="#ffffff">
                     {note.title}
                 </LinkNav>
             ))}
