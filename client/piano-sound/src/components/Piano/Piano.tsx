@@ -2,11 +2,12 @@ import _ from "lodash";
 import {Component} from "react";
 import * as SC from "./styles";
 import {NOTES, VALID_KEYS, KEY_TO_NOTE} from "../../assets/consts";
-import {type IPianoState} from "../../types/piano";
+import {type IPianoProps, type IPianoState} from "../../types/piano";
 import {Key} from "../Key/Key";
+import {AudioElement} from "../AudioElement/AudioElement";
 
-class Piano extends Component<{}, IPianoState> {
-    constructor(props: {}) {
+class Piano extends Component<IPianoProps, IPianoState> {
+    constructor(props: IPianoProps) {
         super(props);
         this.state = {
             pressedKeys: [],
@@ -18,6 +19,7 @@ class Piano extends Component<{}, IPianoState> {
             const noteAudio = new Audio(
                 (document.getElementById(note) as HTMLAudioElement).src
             );
+            noteAudio.volume = this.props.volume;
             noteAudio.play();
         }
     };
@@ -58,15 +60,13 @@ class Piano extends Component<{}, IPianoState> {
                 text={note[note.length - 1]}
                 note={note.slice(0, -1)}
                 pressedKeys={this.state.pressedKeys}
+                isKeysHide={this.props.isKeysHide}
+                isNotesHide={this.props.isNotesHide}
             />
         ));
 
         const audioFiles = _.map(NOTES, (note, index) => (
-            <audio
-                id={note.slice(0, -1)}
-                key={index}
-                src={`../../keys/${note.slice(0, -1)}.mp3`}
-            />
+            <AudioElement key={index} note={note} />
         ));
 
         return (

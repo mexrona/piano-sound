@@ -8,10 +8,12 @@ export interface INotesState {
     notes: any[];
     loading: boolean;
     error: null | string;
+    payload?: any;
 }
 
 interface IFetchNotesAction {
     type: typeof FETCH_NOTES;
+    payload: any;
 }
 
 interface IFetchNotesSuccessAction {
