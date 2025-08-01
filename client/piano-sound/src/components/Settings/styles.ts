@@ -6,7 +6,7 @@ export const SettingsWrapper = styled.div`
 
 export const Settings = styled.div`
     display: block;
-    width: max-content;
+    width: 250px;
     padding: 10px;
     text-align: left;
     font-weight: 700;
@@ -31,5 +31,11 @@ export const SettingsItem = styled.label`
 `;
 
 export const Input = styled.input`
+    width: fit-content;
+    margin-left: 10px;
+`;
+
+export const Volume = styled.span`
+    width: 50px;
     margin-left: 10px;
 `;

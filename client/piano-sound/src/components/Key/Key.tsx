@@ -34,10 +34,17 @@ class Key extends Component<IKeyProps> {
             key = (
                 <div className={keyClassName}>
                     <div>
-                        <div>"{this.props.text}"</div>
-                        <div>
-                            {this.props.note.replace(/b/, "#").toUpperCase()}
-                        </div>
+                        {!this.props.isKeysHide && (
+                            <div>"{this.props.text}"</div>
+                        )}
+
+                        {!this.props.isNotesHide && (
+                            <div>
+                                {this.props.note
+                                    .replace(/b/, "#")
+                                    .toUpperCase()}
+                            </div>
+                        )}
                     </div>
                 </div>
             );
@@ -45,8 +52,12 @@ class Key extends Component<IKeyProps> {
             key = (
                 <div className={keyClassName}>
                     <div>
-                        <div>"{this.props.text}"</div>
-                        <div>{this.props.note.toUpperCase()}</div>
+                        {!this.props.isKeysHide && (
+                            <div>"{this.props.text}"</div>
+                        )}
+                        {!this.props.isNotesHide && (
+                            <div>{this.props.note.toUpperCase()}</div>
+                        )}
                     </div>
                 </div>
             );
