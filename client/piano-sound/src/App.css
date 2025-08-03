@@ -7,8 +7,20 @@
 
 .icon-wrapper {
     padding: 10px;
-    background-color: #2fa7f3;
     border-radius: 50%;
+    background-color: #2fa7f3;
+    cursor: pointer;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.white {
+    background-color: #fff;
 }
 
 .icon {
