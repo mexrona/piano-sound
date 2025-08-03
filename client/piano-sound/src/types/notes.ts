@@ -5,7 +5,7 @@ import {
 } from "../assets/consts";
 
 export interface INotesState {
-    notes: any[];
+    notes: [];
     loading: boolean;
     error: null | string;
     payload?: any;
@@ -23,7 +23,7 @@ interface IFetchNotesSuccessAction {
 
 interface IFetchNotesErrorAction {
     type: typeof FETCH_NOTES_ERROR;
-    payload: string;
+    payload?: string;
 }
 
 export type NotesAction =

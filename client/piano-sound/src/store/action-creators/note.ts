@@ -12,10 +12,13 @@ export const fetchNotes = () => {
         try {
             dispatch({type: FETCH_NOTES});
             const response = await axios.get(
-                "https://jsonplaceholder.typicode.com/posts"
+                "http://localhost:3002/api/notes/list"
             );
             setTimeout(() => {
-                dispatch({type: FETCH_NOTES_SUCCESS, payload: response.data});
+                dispatch({
+                    type: FETCH_NOTES_SUCCESS,
+                    payload: response.data.notes,
+                });
             }, 500);
         } catch (e) {
             dispatch({
