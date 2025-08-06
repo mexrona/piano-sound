@@ -13,7 +13,8 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-input:focus {
+input:focus,
+button:focus {
     outline: none;
 }
 

@@ -5,18 +5,88 @@ import {useAppSelector} from "../../hooks/useAppSelector";
 import {Panel} from "../../components/Panel/Panel";
 import {Button} from "../../components/Button/Button";
 import {useDispatch} from "react-redux";
-import {setIsRecording} from "../../store/reducers/recordReducer";
+import {
+    setIsRecording,
+    recording,
+    clean,
+} from "../../store/reducers/recordReducer";
+import {Input} from "../../components/Input/Input";
+import {Modal} from "../../components/Modal/Modal";
+import {useState} from "react";
+import {useActionNotes} from "../../hooks/useActionNotes";
+import {Message} from "../../components/Message/Message";
 
 export const PianoPage: React.FC = () => {
     const isKeysHide = useAppSelector((state) => state.keyboard.isKeysHide);
     const isNotesHide = useAppSelector((state) => state.keyboard.isNotesHide);
     const volume = useAppSelector((state) => state.volume.value);
     const isRecording = useAppSelector((state) => state.record.isRecording);
+    const notes = useAppSelector((state) => state.record.notes);
+
+    const [modalIsShow, setModalIsShow] = useState(false);
+    const [titleValue, setTitleValue] = useState("");
+    const [messageText, setMessageText] = useState("");
+
+    const sendNotes = useActionNotes;
 
     const dispatch = useDispatch();
 
-    const stopRecording = () => {
+    const setRedordingNotes = (value: any) => {
+        dispatch(recording(value));
+    };
+
+    const sendMessage = (message: string) => {
+        setMessageText(message);
+
+        setTimeout(() => {
+            setMessageText("");
+        }, 2000);
+    };
+
+    const saveNotes = () => {
+        if (!notes) {
+            sendMessage("Вы ничего не ввели");
+            return;
+        }
+
+        setModalIsShow(true);
+        document.getElementsByTagName("body")[0].classList.add("no-scroll");
+    };
+
+    const deleteNotes = () => {
+        if (!notes) {
+            sendMessage("Вы ничего не ввели");
+            return;
+        }
+
+        dispatch(clean());
+    };
+
+    const addNotes = (url: string, type: string, body: any, e: any) => {
+        if (!titleValue) {
+            sendMessage("Пожалуйста, добавьте заголовок!");
+            return;
+        }
+
+        dispatch(clean());
+        setModalIsShow(false);
+        document.getElementsByTagName("body")[0].classList.remove("no-scroll");
+        sendNotes(url, type, body, e);
+        setTitleValue("");
         dispatch(setIsRecording(false));
+
+        sendMessage("Ноты успешно добавлены!");
+    };
+
+    const cancel = () => {
+        setModalIsShow(false);
+        document.getElementsByTagName("body")[0].classList.remove("no-scroll");
+        setTitleValue("");
+    };
+
+    const close = () => {
+        dispatch(setIsRecording(false));
+        dispatch(clean());
     };
 
     return (
@@ -25,13 +95,16 @@ export const PianoPage: React.FC = () => {
             <Controller isKeysHide={isKeysHide} isNotesHide={isNotesHide} />
             {isRecording && (
                 <div>
-                    <Panel id="Notes" />
+                    <Panel id="Notes" defaultValue={notes} />
                     <div className="wrapper">
-                        <Button onClick={stopRecording} $color="#9bcf58">
+                        <Button onClick={saveNotes} $color="#9bcf58">
                             Save
                         </Button>
-                        <Button onClick={stopRecording} $color="#cf5858">
+                        <Button onClick={deleteNotes} $color="#cf5858">
                             Delete
+                        </Button>
+                        <Button onClick={close} $color="#5873cf">
+                            Close
                         </Button>
                     </div>
                 </div>
@@ -40,7 +113,35 @@ export const PianoPage: React.FC = () => {
                 isKeysHide={isKeysHide}
                 isNotesHide={isNotesHide}
                 volume={volume}
+                isRecording={isRecording}
+                recording={setRedordingNotes}
+                modalIsShow={modalIsShow}
             />
+            <Modal modalIsShow={modalIsShow}>
+                <Input
+                    placeholder="Title"
+                    onChange={(e: any) => setTitleValue(e.target.value)}
+                    value={titleValue}
+                />
+                <div className="wrapper modal">
+                    <Button
+                        onClick={(e: any) =>
+                            addNotes(
+                                "add",
+                                "post",
+                                {title: titleValue, body: notes},
+                                e
+                            )
+                        }
+                        $color="#9bcf58">
+                        Save
+                    </Button>
+                    <Button onClick={cancel} $color="#cf5858">
+                        Cancel
+                    </Button>
+                </div>
+            </Modal>
+            <Message messageText={messageText} message={messageText} />
         </>
     );
 };

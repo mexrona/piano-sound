@@ -10,7 +10,7 @@ export const Record: React.FC = () => {
 
     return (
         <div
-            className={isRecording ? "icon-wrapper white" : "icon-wrapper"}
+            className={isRecording ? "icon-wrapper circle" : "icon-wrapper"}
             onClick={() => dispatch(setIsRecording(true))}>
             {isRecording ? (
                 <RecordCircle />

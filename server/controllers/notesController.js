@@ -40,7 +40,7 @@ class NotesController {
                 });
             }
 
-            const {deletedCount} = await NotesModel.deleteOne({
+            await NotesModel.deleteOne({
                 title: req.body.title,
                 body: req.body.body,
             });
