@@ -12,8 +12,6 @@ export const NoteElement: React.FC = () => {
     const {getLocalStorage} = useLocalStorage();
     const notes = getLocalStorage("notes");
 
-    console.log(notes);
-
     const isKeysHide = useAppSelector((state) => state.keyboard.isKeysHide);
     const isNotesHide = useAppSelector((state) => state.keyboard.isNotesHide);
     const volume = useAppSelector((state) => state.volume.value);
@@ -24,9 +22,8 @@ export const NoteElement: React.FC = () => {
             {notes.map((note: any) => {
                 if (note.title === title) {
                     return (
-                        <div>
+                        <div key={note._id}>
                             <Panel
-                                key={note._id}
                                 id={note._id}
                                 defaultValue={note.body}></Panel>
                             <div>

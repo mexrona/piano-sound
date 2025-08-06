@@ -19,8 +19,23 @@
     gap: 50px;
 }
 
-.white {
+.wrapper.modal {
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.show {
+    opacity: 1 !important;
+    top: 30px !important;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.circle {
     background-color: #fff;
+    cursor: default;
 }
 
 .icon {

@@ -19,7 +19,7 @@ export const fetchNotes = () => {
                     type: FETCH_NOTES_SUCCESS,
                     payload: response.data.notes,
                 });
-            }, 500);
+            }, 100);
         } catch (e) {
             dispatch({
                 type: FETCH_NOTES_ERROR,

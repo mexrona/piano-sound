@@ -11,6 +11,7 @@ class Piano extends Component<IPianoProps, IPianoState> {
         super(props);
         this.state = {
             pressedKeys: [],
+            recording: "",
         };
     }
 
@@ -25,7 +26,7 @@ class Piano extends Component<IPianoProps, IPianoState> {
     };
 
     handleKeyDown = (event: KeyboardEvent): void => {
-        if (event.repeat) {
+        if (event.repeat || this.props.modalIsShow) {
             return;
         }
         const key: string = event.key;
@@ -40,11 +41,20 @@ class Piano extends Component<IPianoProps, IPianoState> {
     };
 
     handleKeyUp = (event: KeyboardEvent): void => {
+        if (this.props.modalIsShow) return;
+
         const index: number = this.state.pressedKeys.indexOf(event.key);
+
         if (index > -1) {
             this.setState((state) => ({
                 pressedKeys: state.pressedKeys.filter((_, i) => i !== index),
             }));
+        }
+
+        const key: string = event.key;
+
+        if (this.props.isRecording && KEY_TO_NOTE[key]) {
+            this.props.recording(key);
         }
     };
 

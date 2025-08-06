@@ -9,6 +9,6 @@ export const Button = styled.button<{$color?: string}>`
     transition: opacity 0.1s linear;
 
     &:hover {
-        opacity: 0.9;
+        opacity: 0.8;
     }
 `;
