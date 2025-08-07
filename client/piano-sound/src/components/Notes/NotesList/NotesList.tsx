@@ -31,10 +31,14 @@ export const NotesList: React.FC = () => {
         return <SC.Warn>{error}</SC.Warn>;
     }
 
-    const deleteOnClick = (url: string, type: string, body: any, e: any) => {
-        deleteNotes(url, type, body, e);
+    if (!notes.length) {
+        return <SC.Warn>Список пуст</SC.Warn>;
+    }
+
+    const deleteOnClick = (url: string, type: string, body: object) => {
+        deleteNotes(url, type, body);
         fetchNotes();
-        setLocalStorage("notes", notes);
+        location.reload();
     };
 
     return (
@@ -46,13 +50,11 @@ export const NotesList: React.FC = () => {
                         {note.title}
                     </LinkNav>
                     <SC.Delete
-                        onClick={(e: any) =>
-                            deleteOnClick(
-                                "delete",
-                                "delete",
-                                {title: note.title, body: note.body},
-                                e
-                            )
+                        onClick={() =>
+                            deleteOnClick("delete", "delete", {
+                                title: note.title,
+                                body: note.body,
+                            })
                         }>
                         Удалить
                     </SC.Delete>

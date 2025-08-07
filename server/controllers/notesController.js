@@ -40,7 +40,7 @@ class NotesController {
                 });
             }
 
-            await NotesModel.deleteOne({
+            const {deletedCount} = await NotesModel.deleteOne({
                 title: req.body.title,
                 body: req.body.body,
             });
@@ -54,7 +54,9 @@ class NotesController {
 
             res.status(200).json({message: "Элемент был успешно удалён"});
         } catch (e) {
-            res.status(400).json({message: "Произошла ошибка при удалении"});
+            res.status(400).json({
+                message: `Произошла ошибка при удалении - ${e}`,
+            });
         }
     }
 

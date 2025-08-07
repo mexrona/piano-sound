@@ -7,6 +7,11 @@ import {LinkNav} from "../LinkNav/LinkNav";
 export const Nav: React.FC = () => {
     const location = useLocation();
 
+    const locationPathname = location.pathname;
+    const deleteFirstStep = locationPathname.replace("/notes/", "");
+    const deleteSecondStep = deleteFirstStep.replace("/edit", "");
+    const title = deleteSecondStep;
+
     return (
         <SC.Nav>
             <NavLink to="/">
@@ -16,8 +21,12 @@ export const Nav: React.FC = () => {
                 {location.pathname === "/notes" && (
                     <LinkNav to="/">Piano</LinkNav>
                 )}
-                {location.pathname !== "/notes" && (
-                    <LinkNav to="/notes">Notes</LinkNav>
+                {!location.pathname.includes("edit") &&
+                    location.pathname !== "/notes" && (
+                        <LinkNav to="/notes">Notes</LinkNav>
+                    )}
+                {location.pathname.includes("edit") && (
+                    <LinkNav to={`/notes/${title}`}>Back</LinkNav>
                 )}
             </SC.Links>
         </SC.Nav>
