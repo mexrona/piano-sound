@@ -1,3 +1,3 @@
 export interface ITitle {
-    children: string;
+    children: any;
 }

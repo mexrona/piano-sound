@@ -4,6 +4,7 @@ import {PianoPage} from "./pages/Piano/PianoPage";
 import {NotesPage} from "./pages/Notes/NotesPage/NotesPage";
 import {NotePage} from "./pages/Notes/NotePage/NotePage";
 import {Menu} from "./components/Menu/Menu";
+import {EditNote} from "./pages/Notes/EditNote/EditNote";
 
 const App: React.FC = () => {
     return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
                 <Route path="/" element={<PianoPage />} />
                 <Route path="/notes" element={<NotesPage />} />
                 <Route path="/notes/:title" element={<NotePage />} />
+                <Route path="/notes/:title/edit" element={<EditNote />} />
             </Routes>
         </BrowserRouter>
     );

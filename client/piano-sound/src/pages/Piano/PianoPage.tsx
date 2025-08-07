@@ -1,3 +1,4 @@
+import {useEffect} from "react";
 import {Title} from "../../components/Title/Title";
 import {Controller} from "../../components/Controller/Controller";
 import {Piano} from "../../components/Piano/Piano";
@@ -15,6 +16,10 @@ import {Modal} from "../../components/Modal/Modal";
 import {useState} from "react";
 import {useActionNotes} from "../../hooks/useActionNotes";
 import {Message} from "../../components/Message/Message";
+import {useLocalStorage} from "../../hooks/useLocalStorage";
+import {useActions} from "../../hooks/useActions";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {Loader} from "../../components/Loader/Loader";
 
 export const PianoPage: React.FC = () => {
     const isKeysHide = useAppSelector((state) => state.keyboard.isKeysHide);
@@ -22,6 +27,9 @@ export const PianoPage: React.FC = () => {
     const volume = useAppSelector((state) => state.volume.value);
     const isRecording = useAppSelector((state) => state.record.isRecording);
     const notes = useAppSelector((state) => state.record.notes);
+    const allNotes = useTypedSelector((state) => state.note.notes);
+    const {loading} = useTypedSelector((state) => state.note);
+    const {fetchNotes} = useActions();
 
     const [modalIsShow, setModalIsShow] = useState(false);
     const [titleValue, setTitleValue] = useState("");
@@ -30,6 +38,20 @@ export const PianoPage: React.FC = () => {
     const sendNotes = useActionNotes;
 
     const dispatch = useDispatch();
+
+    const {setLocalStorage, getLocalStorage} = useLocalStorage();
+
+    useEffect(() => {
+        fetchNotes();
+    }, []);
+
+    useEffect(() => {
+        setLocalStorage("notes", allNotes);
+    }, [allNotes]);
+
+    if (loading) {
+        return <Loader />;
+    }
 
     const setRedordingNotes = (value: any) => {
         dispatch(recording(value));
@@ -68,14 +90,28 @@ export const PianoPage: React.FC = () => {
             return;
         }
 
+        const sameTitle = getLocalStorage("notes").filter(
+            (note: any) => note.title === titleValue
+        );
+
+        if (sameTitle.length) {
+            sendMessage("Этот заголовок уже используется");
+            return;
+        }
+
         dispatch(clean());
         setModalIsShow(false);
         document.getElementsByTagName("body")[0].classList.remove("no-scroll");
+
         sendNotes(url, type, body, e);
+
         setTitleValue("");
         dispatch(setIsRecording(false));
-
         sendMessage("Ноты успешно добавлены!");
+
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
     };
 
     const cancel = () => {
@@ -95,7 +131,7 @@ export const PianoPage: React.FC = () => {
             <Controller isKeysHide={isKeysHide} isNotesHide={isNotesHide} />
             {isRecording && (
                 <div>
-                    <Panel id="Notes" defaultValue={notes} />
+                    <Panel id="Notes" defaultValue={notes} disabled={true} />
                     <div className="wrapper">
                         <Button onClick={saveNotes} $color="#9bcf58">
                             Save

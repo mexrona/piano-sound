@@ -10,8 +10,8 @@ export const NotesListItem = styled.div`
     align-items: center;
     width: 50%;
     margin: 0 auto 10px;
-    padding: 10px;
     background-color: #000;
+    transition: background-color 0.1s linear;
 
     &:last-child {
         margin-bottom: 0;
@@ -19,11 +19,16 @@ export const NotesListItem = styled.div`
 `;
 
 export const Delete = styled.div`
-    cursor: pointer;
+    padding: 10px;
+    color: #2fa7f3;
+    font-weight: 700;
+    background-color: #fff;
+    border-left: 10px solid #242424;
+    cursor: default;
     transition: all 0.1s linear;
 
     &:hover {
-        color: #000;
-        background-color: #fff;
+        color: #fff;
+        background-color: #2fa7f3;
     }
 `;

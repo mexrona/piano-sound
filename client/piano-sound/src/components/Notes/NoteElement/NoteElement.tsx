@@ -1,11 +1,12 @@
 import {useParams} from "react-router-dom";
 import {type IParams} from "../../../types/noteElement";
 import {useAppSelector} from "../../../hooks/useAppSelector";
-import {Title} from "../../Title/styled";
+import {Title} from "../../Title/Title";
 import {Panel} from "../../Panel/Panel";
 import {Piano} from "../../Piano/Piano";
 import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import {Button} from "../../Button/Button";
+import {LinkNav} from "../../LinkNav/LinkNav";
 
 export const NoteElement: React.FC = () => {
     const {title} = useParams<IParams>();
@@ -25,8 +26,14 @@ export const NoteElement: React.FC = () => {
                         <div key={note._id}>
                             <Panel
                                 id={note._id}
-                                defaultValue={note.body}></Panel>
-                            <div>
+                                defaultValue={note.body}
+                                disabled={true}></Panel>
+                            <div className="wrapper">
+                                <LinkNav
+                                    to={`/notes/${note.title}/edit`}
+                                    $color="#cf2270">
+                                    Edit
+                                </LinkNav>
                                 <Button $color="#b558cf">Autoplay</Button>
                             </div>
                         </div>
