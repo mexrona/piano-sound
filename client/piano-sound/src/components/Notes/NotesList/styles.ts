@@ -10,7 +10,8 @@ export const NotesListItem = styled.div`
     align-items: center;
     width: 50%;
     margin: 0 auto 10px;
-    background-color: #000;
+    background-color: #1a1a1a;
+    box-shadow: -1px 1px 5px #fff;
     transition: background-color 0.1s linear;
 
     &:last-child {
@@ -23,7 +24,6 @@ export const Delete = styled.div`
     color: #2fa7f3;
     font-weight: 700;
     background-color: #fff;
-    border-left: 10px solid #242424;
     cursor: default;
     transition: all 0.1s linear;
 

@@ -15,7 +15,7 @@ import {useNavigate} from "react-router-dom";
 
 export const EditNote: React.FC = () => {
     const {title} = useParams<IParams>();
-    const {getLocalStorage} = useLocalStorage();
+    const {getLocalStorage, setLocalStorage} = useLocalStorage();
 
     const isKeysHide = useAppSelector((state) => state.keyboard.isKeysHide);
     const isNotesHide = useAppSelector((state) => state.keyboard.isNotesHide);
@@ -40,6 +40,31 @@ export const EditNote: React.FC = () => {
     };
 
     const editOnClick = (url: string, type: string, body: object, e: any) => {
+        if (panelValue === "") {
+            sendMessage("Вы не добавили изменения");
+            return;
+        }
+
+        const notes = getLocalStorage("notes").filter(
+            (note: any) => note.title !== title
+        );
+
+        const sameTitle = notes.filter(
+            (note: any) => note.title === titleValue
+        );
+
+        if (sameTitle.length) {
+            sendMessage("Этот заголовок уже используется");
+            return;
+        }
+
+        notes.push({
+            title: titleValue,
+            body: panelValue,
+            _id: Date.now(),
+        });
+        setLocalStorage("notes", notes);
+
         editNotes(url, type, body, e);
         fetchNotes();
 
@@ -90,7 +115,6 @@ export const EditNote: React.FC = () => {
                                     }>
                                     Save
                                 </Button>
-                                <Button $color="#b558cf">Autoplay</Button>
                             </div>
                         </div>
                     );

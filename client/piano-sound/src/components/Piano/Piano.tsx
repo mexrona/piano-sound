@@ -76,7 +76,11 @@ class Piano extends Component<IPianoProps, IPianoState> {
         ));
 
         const audioFiles = _.map(NOTES, (note, index) => (
-            <AudioElement key={index} note={note} />
+            <AudioElement
+                key={index}
+                note={note}
+                code={note[note.length - 1]}
+            />
         ));
 
         return (

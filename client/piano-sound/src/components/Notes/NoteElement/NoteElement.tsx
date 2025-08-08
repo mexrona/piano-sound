@@ -5,7 +5,6 @@ import {Title} from "../../Title/Title";
 import {Panel} from "../../Panel/Panel";
 import {Piano} from "../../Piano/Piano";
 import {useLocalStorage} from "../../../hooks/useLocalStorage";
-import {Button} from "../../Button/Button";
 import {LinkNav} from "../../LinkNav/LinkNav";
 
 export const NoteElement: React.FC = () => {
@@ -34,7 +33,6 @@ export const NoteElement: React.FC = () => {
                                     $color="#cf2270">
                                     Edit
                                 </LinkNav>
-                                <Button $color="#b558cf">Autoplay</Button>
                             </div>
                         </div>
                     );
