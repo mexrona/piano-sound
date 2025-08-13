@@ -1,6 +1,6 @@
+import {type IVolume} from "../../types/volume";
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
-import {type IVolume} from "../../types/volume";
 
 const initialState = {
     value: 0.5,

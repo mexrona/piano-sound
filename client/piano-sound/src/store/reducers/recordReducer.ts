@@ -1,6 +1,6 @@
+import {type IRecord} from "../../types/record";
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
-import {type IRecord} from "../../types/record";
 
 const initialState = {
     isRecording: false,

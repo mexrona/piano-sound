@@ -1,9 +1,9 @@
 import "./App.css";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {Menu} from "./components/Menu/Menu";
 import {PianoPage} from "./pages/Piano/PianoPage";
 import {NotesPage} from "./pages/Notes/NotesPage/NotesPage";
 import {NotePage} from "./pages/Notes/NotePage/NotePage";
-import {Menu} from "./components/Menu/Menu";
 import {EditNote} from "./pages/Notes/EditNote/EditNote";
 
 const App: React.FC = () => {

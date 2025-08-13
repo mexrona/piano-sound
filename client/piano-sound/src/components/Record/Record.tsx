@@ -1,8 +1,8 @@
-import record from "../../../public/icons/record.svg";
+import {useAppSelector} from "../../hooks/useAppSelector";
 import {useDispatch} from "react-redux";
 import {setIsRecording} from "../../store/reducers/recordReducer";
-import {useAppSelector} from "../../hooks/useAppSelector";
 import {RecordCircle} from "../RecordCircle/RecordCircle";
+import record from "../../../public/icons/record.svg";
 
 export const Record: React.FC = () => {
     const isRecording = useAppSelector((state) => state.record.isRecording);

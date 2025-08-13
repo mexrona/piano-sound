@@ -13,9 +13,9 @@ const Pulse = keyframes`
 `;
 
 export const RecordCircle = styled.div`
-    background-color: red;
     width: 1em;
     height: 1em;
+    background-color: red;
     border-radius: 50%;
     animation: ease ${Pulse} 2s infinite;
 `;

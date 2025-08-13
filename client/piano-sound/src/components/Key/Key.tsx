@@ -1,7 +1,7 @@
-import _ from "lodash";
 import {Component, type JSX} from "react";
-import {NOTE_TO_KEY} from "../../assets/consts";
 import {type IKeyProps} from "../../types/key";
+import _ from "lodash";
+import {NOTE_TO_KEY} from "../../assets/consts";
 
 class Key extends Component<IKeyProps> {
     noteIsFlat = (note: string): boolean => {

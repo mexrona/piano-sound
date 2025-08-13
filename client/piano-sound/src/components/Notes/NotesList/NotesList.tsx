@@ -1,12 +1,12 @@
 import {useTypedSelector} from "../../../hooks/useTypedSelector";
-import {useEffect} from "react";
 import {useActions} from "../../../hooks/useActions";
 import {useLocalStorage} from "../../../hooks/useLocalStorage";
+import {useActionNotes} from "../../../hooks/useActionNotes";
+import {useEffect} from "react";
+import {Loader} from "../../Loader/Loader";
+import * as SC from "./styles";
 import {Title} from "../../Title/Title";
 import {LinkNav} from "../../LinkNav/LinkNav";
-import {Loader} from "../../Loader/Loader";
-import {useActionNotes} from "../../../hooks/useActionNotes";
-import * as SC from "./styles";
 
 export const NotesList: React.FC = () => {
     const {notes, error, loading} = useTypedSelector((state) => state.note);

@@ -1,6 +1,6 @@
+import {type IKeyboardState} from "../../types/keyboard";
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
-import {type IKeyboardState} from "../../types/keyboard";
 
 const initialState = {
     isKeysHide: false,

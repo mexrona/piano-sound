@@ -1,10 +1,10 @@
-import {useState} from "react";
-import settings from "../../../public/icons/settings.svg";
-import * as SC from "./styles";
 import type {ISettings} from "../../types/settings";
+import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "../../hooks/useAppSelector";
 import {showKeys, showNotes} from "../../store/reducers/keyboardReducer";
+import * as SC from "./styles";
+import settings from "../../../public/icons/settings.svg";
 import {setVolume} from "../../store/reducers/volumeReducer";
 
 export const Settings: React.FC<ISettings> = ({isKeysHide, isNotesHide}) => {
@@ -60,7 +60,8 @@ export const Settings: React.FC<ISettings> = ({isKeysHide, isNotesHide}) => {
                         </SC.SettingsItem>
                     </SC.SettingsItems>
                     <SC.SettingsItem>
-                        Sound <SC.Volume>({volume * 100}%)</SC.Volume>
+                        Sound{" "}
+                        <SC.Volume>({Math.round(volume * 100)}%)</SC.Volume>
                         <SC.Input
                             type="range"
                             min={0}
