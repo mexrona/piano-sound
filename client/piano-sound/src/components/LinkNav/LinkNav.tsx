@@ -1,5 +1,5 @@
-import {useState} from "react";
 import {type ILinkNav} from "../../types/linkNav";
+import {useState} from "react";
 import * as SC from "./styled";
 
 export const LinkNav: React.FC<ILinkNav> = ({to, $color, children}) => {

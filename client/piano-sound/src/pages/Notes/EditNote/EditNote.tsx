@@ -1,17 +1,18 @@
-import {Title} from "../../../components/Title/Title";
-import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import {useParams} from "react-router-dom";
-import {useAppSelector} from "../../../hooks/useAppSelector";
 import {type IParams} from "../../../types/noteElement";
-import {Panel} from "../../../components/Panel/Panel";
-import {Button} from "../../../components/Button/Button";
-import {Piano} from "../../../components/Piano/Piano";
+import {useLocalStorage} from "../../../hooks/useLocalStorage";
+import {useAppSelector} from "../../../hooks/useAppSelector";
 import {useState} from "react";
 import {useActionNotes} from "../../../hooks/useActionNotes";
 import {useActions} from "../../../hooks/useActions";
-import {Message} from "../../../components/Message/Message";
-import {Input} from "../../../components/Input/Input";
 import {useNavigate} from "react-router-dom";
+import {Title} from "../../../components/Title/Title";
+import {Input} from "../../../components/Input/Input";
+import {Panel} from "../../../components/Panel/Panel";
+import {Button} from "../../../components/Button/Button";
+import {Piano} from "../../../components/Piano/Piano";
+import {Message} from "../../../components/Message/Message";
+import {sendMessage} from "../../../components/sendMessage/sendMessage";
 
 export const EditNote: React.FC = () => {
     const {title} = useParams<IParams>();
@@ -31,17 +32,9 @@ export const EditNote: React.FC = () => {
     const {fetchNotes} = useActions();
     const navigate = useNavigate();
 
-    const sendMessage = (message: string) => {
-        setMessageText(message);
-
-        setTimeout(() => {
-            setMessageText("");
-        }, 2000);
-    };
-
     const editOnClick = (url: string, type: string, body: object, e: any) => {
         if (panelValue === "") {
-            sendMessage("Вы не добавили изменения");
+            sendMessage("Вы не добавили изменения", setMessageText);
             return;
         }
 
@@ -54,7 +47,7 @@ export const EditNote: React.FC = () => {
         );
 
         if (sameTitle.length) {
-            sendMessage("Этот заголовок уже используется");
+            sendMessage("Этот заголовок уже используется", setMessageText);
             return;
         }
 
@@ -68,9 +61,9 @@ export const EditNote: React.FC = () => {
         editNotes(url, type, body, e);
         fetchNotes();
 
-        sendMessage("Ноты успешно редактированы!");
+        sendMessage("Ноты успешно редактированы!", setMessageText);
 
-        navigate(`/notes/${titleValue}/edit`);
+        navigate(`/notes/${titleValue}`);
     };
 
     return (

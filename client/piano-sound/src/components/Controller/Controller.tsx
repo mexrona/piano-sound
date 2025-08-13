@@ -1,7 +1,7 @@
+import type {IController} from "../../types/controller";
+import * as SC from "./styles";
 import {Settings} from "../Settings/Settings";
 import {Record} from "../Record/Record";
-import * as SC from "./styles";
-import type {IController} from "../../types/controller";
 
 export const Controller: React.FC<IController> = ({
     isKeysHide,

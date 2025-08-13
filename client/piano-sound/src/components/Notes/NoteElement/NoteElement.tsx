@@ -1,11 +1,11 @@
 import {useParams} from "react-router-dom";
 import {type IParams} from "../../../types/noteElement";
+import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import {useAppSelector} from "../../../hooks/useAppSelector";
 import {Title} from "../../Title/Title";
 import {Panel} from "../../Panel/Panel";
-import {Piano} from "../../Piano/Piano";
-import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import {LinkNav} from "../../LinkNav/LinkNav";
+import {Piano} from "../../Piano/Piano";
 
 export const NoteElement: React.FC = () => {
     const {title} = useParams<IParams>();

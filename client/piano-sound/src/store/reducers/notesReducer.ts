@@ -1,9 +1,9 @@
+import {type INotesState, type NotesAction} from "../../types/notes";
 import {
     FETCH_NOTES,
     FETCH_NOTES_SUCCESS,
     FETCH_NOTES_ERROR,
 } from "../../assets/consts";
-import {type INotesState, type NotesAction} from "../../types/notes";
 
 const initialState: INotesState = {
     notes: [],

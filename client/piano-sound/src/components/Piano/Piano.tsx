@@ -1,8 +1,8 @@
-import _ from "lodash";
 import {Component} from "react";
-import * as SC from "./styles";
-import {NOTES, VALID_KEYS, KEY_TO_NOTE} from "../../assets/consts";
 import {type IPianoProps, type IPianoState} from "../../types/piano";
+import _ from "lodash";
+import {NOTES, VALID_KEYS, KEY_TO_NOTE} from "../../assets/consts";
+import * as SC from "./styles";
 import {Key} from "../Key/Key";
 import {AudioElement} from "../AudioElement/AudioElement";
 
@@ -18,10 +18,13 @@ class Piano extends Component<IPianoProps, IPianoState> {
     playNote = (note: string): void => {
         if (!_.isEmpty(note)) {
             const noteAudio = new Audio(
-                (document.getElementById(note) as HTMLAudioElement).src
+                (document.getElementById(note) as HTMLMediaElement).src
             );
             noteAudio.volume = this.props.volume;
-            noteAudio.play();
+
+            if (noteAudio.volume !== 0) {
+                noteAudio.play();
+            }
         }
     };
 
@@ -37,6 +40,7 @@ class Piano extends Component<IPianoProps, IPianoState> {
         this.setState({
             pressedKeys: updatedPressedKeys,
         });
+
         this.playNote(KEY_TO_NOTE[key]);
     };
 

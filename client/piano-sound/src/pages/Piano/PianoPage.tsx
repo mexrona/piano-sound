@@ -1,11 +1,15 @@
-import {useEffect} from "react";
+import {useAppSelector} from "../../hooks/useAppSelector";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {useActions} from "../../hooks/useActions";
+import {useState, useEffect} from "react";
+import {useActionNotes} from "../../hooks/useActionNotes";
+import {useDispatch} from "react-redux";
+import {useLocalStorage} from "../../hooks/useLocalStorage";
 import {Title} from "../../components/Title/Title";
 import {Controller} from "../../components/Controller/Controller";
 import {Piano} from "../../components/Piano/Piano";
-import {useAppSelector} from "../../hooks/useAppSelector";
 import {Panel} from "../../components/Panel/Panel";
 import {Button} from "../../components/Button/Button";
-import {useDispatch} from "react-redux";
 import {
     setIsRecording,
     recording,
@@ -13,13 +17,9 @@ import {
 } from "../../store/reducers/recordReducer";
 import {Input} from "../../components/Input/Input";
 import {Modal} from "../../components/Modal/Modal";
-import {useState} from "react";
-import {useActionNotes} from "../../hooks/useActionNotes";
 import {Message} from "../../components/Message/Message";
-import {useLocalStorage} from "../../hooks/useLocalStorage";
-import {useActions} from "../../hooks/useActions";
-import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {Loader} from "../../components/Loader/Loader";
+import {sendMessage} from "../../components/sendMessage/sendMessage";
 
 export const PianoPage: React.FC = () => {
     const isKeysHide = useAppSelector((state) => state.keyboard.isKeysHide);
@@ -27,8 +27,10 @@ export const PianoPage: React.FC = () => {
     const volume = useAppSelector((state) => state.volume.value);
     const isRecording = useAppSelector((state) => state.record.isRecording);
     const notes = useAppSelector((state) => state.record.notes);
+
     const allNotes = useTypedSelector((state) => state.note.notes);
     const {loading} = useTypedSelector((state) => state.note);
+
     const {fetchNotes} = useActions();
 
     const [modalIsShow, setModalIsShow] = useState(false);
@@ -57,17 +59,9 @@ export const PianoPage: React.FC = () => {
         dispatch(recording(value));
     };
 
-    const sendMessage = (message: string) => {
-        setMessageText(message);
-
-        setTimeout(() => {
-            setMessageText("");
-        }, 2000);
-    };
-
     const saveNotes = () => {
         if (!notes) {
-            sendMessage("Вы ничего не ввели");
+            sendMessage("Вы ничего не ввели", setMessageText);
             return;
         }
 
@@ -77,7 +71,7 @@ export const PianoPage: React.FC = () => {
 
     const deleteNotes = () => {
         if (!notes) {
-            sendMessage("Вы ничего не ввели");
+            sendMessage("Вы ничего не ввели", setMessageText);
             return;
         }
 
@@ -86,7 +80,7 @@ export const PianoPage: React.FC = () => {
 
     const addNotes = (url: string, type: string, body: any, e: any) => {
         if (!titleValue) {
-            sendMessage("Пожалуйста, добавьте заголовок!");
+            sendMessage("Пожалуйста, добавьте заголовок!", setMessageText);
             return;
         }
 
@@ -95,7 +89,7 @@ export const PianoPage: React.FC = () => {
         );
 
         if (sameTitle.length) {
-            sendMessage("Этот заголовок уже используется");
+            sendMessage("Этот заголовок уже используется", setMessageText);
             return;
         }
 
@@ -107,7 +101,7 @@ export const PianoPage: React.FC = () => {
 
         setTitleValue("");
         dispatch(setIsRecording(false));
-        sendMessage("Ноты успешно добавлены!");
+        sendMessage("Ноты успешно добавлены!", setMessageText);
 
         setTimeout(() => {
             location.reload();
