@@ -3,7 +3,7 @@ import {type IParams} from "../../../types/noteElement";
 import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import {useAppSelector} from "../../../hooks/useAppSelector";
 import {useState} from "react";
-import {useActionNotes} from "../../../hooks/useActionNotes";
+import {requestNotes} from "../../../utilities/requestNotes";
 import {useActions} from "../../../hooks/useActions";
 import {useNavigate} from "react-router-dom";
 import {Title} from "../../../components/Title/Title";
@@ -28,11 +28,11 @@ export const EditNote: React.FC = () => {
 
     const notes = getLocalStorage("notes");
 
-    const editNotes = useActionNotes;
+    const editNotes = requestNotes;
     const {fetchNotes} = useActions();
     const navigate = useNavigate();
 
-    const editOnClick = (url: string, type: string, body: object, e: any) => {
+    const editOnClick = (url: string, type: string, body: any, e: any) => {
         if (panelValue === "") {
             sendMessage("Вы не добавили изменения", setMessageText);
             return;
@@ -52,9 +52,9 @@ export const EditNote: React.FC = () => {
         }
 
         notes.push({
-            title: titleValue,
-            body: panelValue,
-            _id: Date.now(),
+            _id: body.id,
+            title: body.newTitle,
+            body: body.newBody,
         });
         setLocalStorage("notes", notes);
 
@@ -99,8 +99,9 @@ export const EditNote: React.FC = () => {
                                             "put",
                                             {
                                                 title: note.title,
-                                                newTitle: titleValue,
                                                 body: note.body,
+                                                id: note._id,
+                                                newTitle: titleValue,
                                                 newBody: panelValue,
                                             },
                                             e

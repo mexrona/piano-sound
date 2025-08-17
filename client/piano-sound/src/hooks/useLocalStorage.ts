@@ -4,11 +4,8 @@ export const useLocalStorage = () => {
     };
 
     const getLocalStorage = (key: string) => {
-        try {
-            return JSON.parse(localStorage.getItem(key) || "");
-        } catch (e: any) {
-            throw new Error(e);
-        }
+        const item = localStorage.getItem(key) || null;
+        return item ? JSON.parse(item) : null;
     };
 
     const removeLocalStorage = (key: string) => {

@@ -8,6 +8,7 @@ class NotesController {
             res.status(200).json({notes: result});
         } catch (e) {
             res.status(400).json({message: "Произошла ошибка при получении"});
+            return;
         }
     }
 
@@ -29,20 +30,22 @@ class NotesController {
             res.status(200).json({message: "Элемент успешно добавлен"});
         } catch (e) {
             res.status(400).json({message: "Произошла ошибка при добавлении"});
+            return;
         }
     }
 
     async deleteNotes(req, res) {
         try {
-            if (!req.body.title) {
+            if (!req.body.id) {
                 res.status(400).json({
-                    message: "Пожалуйста, укажите заголовок",
+                    message: "Пожалуйста, выберите элемент для удаления",
                 });
             }
 
             const {deletedCount} = await NotesModel.deleteOne({
                 title: req.body.title,
                 body: req.body.body,
+                id: req.body._id,
             });
 
             if (deletedCount === 0) {
@@ -57,28 +60,26 @@ class NotesController {
             res.status(400).json({
                 message: `Произошла ошибка при удалении - ${e}`,
             });
+            return;
         }
     }
 
     async editNotes(req, res) {
         try {
-            if (!req.body.title && !req.body.newTitle) {
+            if (!req.body.newBody) {
                 res.status(400).json({
-                    message: "Пожалуйста, укажите заголовок",
+                    message: "Пожалуйста, дабавьте изменения",
                 });
             }
 
-            await NotesModel.deleteOne({
+            const filter = {
                 title: req.body.title,
                 body: req.body.body,
-            });
+                id: req.body._id,
+            };
+            const update = {title: req.body.newTitle, body: req.body.newBody};
 
-            const notesModal = new NotesModel({
-                title: req.body.newTitle,
-                body: req.body.newBody,
-            });
-
-            await notesModal.save();
+            await NotesModel.findOneAndUpdate(filter, update, {new: true});
 
             res.status(200).json({
                 message: "Элемент был успешно редактирован",
@@ -87,6 +88,7 @@ class NotesController {
             res.status(400).json({
                 message: "Произошла ошибка при редактировании",
             });
+            return;
         }
     }
 }

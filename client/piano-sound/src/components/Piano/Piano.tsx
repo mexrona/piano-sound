@@ -17,14 +17,13 @@ class Piano extends Component<IPianoProps, IPianoState> {
 
     playNote = (note: string): void => {
         if (!_.isEmpty(note)) {
-            const noteAudio = new Audio(
-                (document.getElementById(note) as HTMLMediaElement).src
-            );
-            noteAudio.volume = this.props.volume;
+            const audioElement = document.getElementById(
+                note
+            ) as HTMLMediaElement;
 
-            if (noteAudio.volume !== 0) {
-                noteAudio.play();
-            }
+            audioElement.volume = this.props.volume;
+
+            audioElement.play();
         }
     };
 
@@ -32,7 +31,7 @@ class Piano extends Component<IPianoProps, IPianoState> {
         if (event.repeat || this.props.modalIsShow) {
             return;
         }
-        const key: string = event.key;
+        const key: string = event.code.slice(-1).toLowerCase();
         const updatedPressedKeys: string[] = [...this.state.pressedKeys];
         if (!updatedPressedKeys.includes(key) && VALID_KEYS.includes(key)) {
             updatedPressedKeys.push(key);
@@ -47,7 +46,9 @@ class Piano extends Component<IPianoProps, IPianoState> {
     handleKeyUp = (event: KeyboardEvent): void => {
         if (this.props.modalIsShow) return;
 
-        const index: number = this.state.pressedKeys.indexOf(event.key);
+        const index: number = this.state.pressedKeys.indexOf(
+            event.code.slice(-1).toLowerCase()
+        );
 
         if (index > -1) {
             this.setState((state) => ({
@@ -55,36 +56,52 @@ class Piano extends Component<IPianoProps, IPianoState> {
             }));
         }
 
-        const key: string = event.key;
+        const key: string = event.code.slice(-1).toLowerCase();
 
         if (this.props.isRecording && KEY_TO_NOTE[key]) {
             this.props.recording(key);
         }
     };
 
+    handleClick = (e: MouseEvent) => {
+        const key = e.target as HTMLElement;
+        const id = key.getAttribute("data-note");
+
+        if (id) {
+            const sound = document.getElementById(id) as HTMLMediaElement;
+
+            sound.volume = this.props.volume;
+            sound.play();
+        }
+    };
+
     componentDidMount(): void {
         window.addEventListener("keydown", this.handleKeyDown);
         window.addEventListener("keyup", this.handleKeyUp);
+        window.addEventListener("click", this.handleClick);
+    }
+
+    componentWillUnmount(): void {
+        window.removeEventListener("keydown", this.handleKeyDown);
+        window.removeEventListener("keyup", this.handleKeyUp);
+        window.removeEventListener("click", this.handleClick);
     }
 
     render() {
-        const keys = _.map(NOTES, (note, index) => (
+        const keys = _.map(NOTES, (info, index) => (
             <Key
                 key={index}
-                text={note[note.length - 1]}
-                note={note.slice(0, -1)}
+                index={index}
+                text={info.code}
+                note={info.note}
                 pressedKeys={this.state.pressedKeys}
                 isKeysHide={this.props.isKeysHide}
                 isNotesHide={this.props.isNotesHide}
             />
         ));
 
-        const audioFiles = _.map(NOTES, (note, index) => (
-            <AudioElement
-                key={index}
-                note={note}
-                code={note[note.length - 1]}
-            />
+        const audioFiles = _.map(NOTES, (info, index) => (
+            <AudioElement key={index} note={info.note} code={info.code} />
         ));
 
         return (

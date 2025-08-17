@@ -12,7 +12,7 @@ export const fetchNotes = () => {
         try {
             dispatch({type: FETCH_NOTES});
             const response = await axios.get(
-                "http://localhost:3002/api/notes/list"
+                "http://localhost:3000/api/notes/list"
             );
             setTimeout(() => {
                 dispatch({

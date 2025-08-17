@@ -4,4 +4,5 @@ export interface IKeyProps {
     pressedKeys: string[];
     isKeysHide: boolean;
     isNotesHide: boolean;
+    index: number;
 }
