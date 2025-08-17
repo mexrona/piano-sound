@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 import {useAppSelector} from "../../hooks/useAppSelector";
 import {showKeys, showNotes} from "../../store/reducers/keyboardReducer";
 import * as SC from "./styles";
-import settings from "../../../public/icons/settings.svg";
+import settings from "/icons/settings.svg";
 import {setVolume} from "../../store/reducers/volumeReducer";
 
 export const Settings: React.FC<ISettings> = ({isKeysHide, isNotesHide}) => {

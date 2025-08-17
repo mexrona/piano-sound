@@ -1,7 +1,7 @@
-import {useLocation} from "react-router";
+import {useLocation} from "react-router-dom";
 import * as SC from "./styled";
 import {NavLink} from "react-router-dom";
-import logo from "../../../public/icons/logo.svg";
+import logo from "/icons/logo.svg";
 import {LinkNav} from "../LinkNav/LinkNav";
 
 export const Nav: React.FC = () => {

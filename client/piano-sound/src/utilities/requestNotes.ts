@@ -1,4 +1,4 @@
-export const useActionNotes = async (
+export const requestNotes = async (
     url: string,
     type: string,
     body: object,
@@ -7,7 +7,7 @@ export const useActionNotes = async (
     if (e) e.preventDefault();
 
     try {
-        const res = await fetch(`http://localhost:3002/api/notes/${url}`, {
+        const res = await fetch(`http://localhost:3000/api/notes/${url}`, {
             method: `${type}`,
             headers: {
                 Accept: "application/json",

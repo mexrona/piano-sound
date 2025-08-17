@@ -1,8 +1,7 @@
 import {useAppSelector} from "../../hooks/useAppSelector";
-import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 import {useState, useEffect} from "react";
-import {useActionNotes} from "../../hooks/useActionNotes";
+import {requestNotes} from "../../utilities/requestNotes";
 import {useDispatch} from "react-redux";
 import {useLocalStorage} from "../../hooks/useLocalStorage";
 import {Title} from "../../components/Title/Title";
@@ -20,6 +19,7 @@ import {Modal} from "../../components/Modal/Modal";
 import {Message} from "../../components/Message/Message";
 import {Loader} from "../../components/Loader/Loader";
 import {sendMessage} from "../../components/sendMessage/sendMessage";
+import {NOTES} from "../../assets/consts";
 
 export const PianoPage: React.FC = () => {
     const isKeysHide = useAppSelector((state) => state.keyboard.isKeysHide);
@@ -27,9 +27,8 @@ export const PianoPage: React.FC = () => {
     const volume = useAppSelector((state) => state.volume.value);
     const isRecording = useAppSelector((state) => state.record.isRecording);
     const notes = useAppSelector((state) => state.record.notes);
-
-    const allNotes = useTypedSelector((state) => state.note.notes);
-    const {loading} = useTypedSelector((state) => state.note);
+    const allNotes = useAppSelector((state) => state.note.notes);
+    const {loading} = useAppSelector((state) => state.note);
 
     const {fetchNotes} = useActions();
 
@@ -37,11 +36,31 @@ export const PianoPage: React.FC = () => {
     const [titleValue, setTitleValue] = useState("");
     const [messageText, setMessageText] = useState("");
 
-    const sendNotes = useActionNotes;
+    const sendNotes = requestNotes;
 
     const dispatch = useDispatch();
 
     const {setLocalStorage, getLocalStorage} = useLocalStorage();
+
+    useEffect(() => {
+        if (!getLocalStorage("audioElements")) {
+            const audioElements: any = [];
+
+            NOTES.forEach((element) => {
+                let audioElement = new Audio(
+                    (
+                        document.getElementById(
+                            element.note
+                        ) as HTMLMediaElement
+                    ).src
+                );
+
+                audioElements.push({note: element.note, src: audioElement.src});
+            });
+
+            setLocalStorage("audioElements", audioElements);
+        }
+    }, []);
 
     useEffect(() => {
         fetchNotes();
@@ -102,10 +121,6 @@ export const PianoPage: React.FC = () => {
         setTitleValue("");
         dispatch(setIsRecording(false));
         sendMessage("Ноты успешно добавлены!", setMessageText);
-
-        setTimeout(() => {
-            location.reload();
-        }, 1000);
     };
 
     const cancel = () => {

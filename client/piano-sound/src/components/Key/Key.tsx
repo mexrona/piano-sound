@@ -32,7 +32,12 @@ class Key extends Component<IKeyProps> {
 
         if (noteIsFlat) {
             key = (
-                <div className={keyClassName}>
+                <div
+                    className={keyClassName}
+                    role="button"
+                    tabIndex={this.props.index}
+                    aria-pressed={false}
+                    data-note={this.props.note}>
                     <div>
                         {!this.props.isKeysHide && (
                             <div>"{this.props.text}"</div>
@@ -50,7 +55,12 @@ class Key extends Component<IKeyProps> {
             );
         } else {
             key = (
-                <div className={keyClassName}>
+                <div
+                    className={keyClassName}
+                    role="button"
+                    tabIndex={this.props.index}
+                    aria-pressed={false}
+                    data-note={this.props.note}>
                     <div>
                         {!this.props.isKeysHide && (
                             <div>"{this.props.text}"</div>
